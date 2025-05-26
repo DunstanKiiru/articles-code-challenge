@@ -87,6 +87,3 @@ Run the test suite using `pytest`:
 ```bash
 pytest
 ```
-pytest
-python lib/db/seed.py
-pipenv install
