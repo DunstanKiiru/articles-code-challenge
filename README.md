@@ -76,7 +76,7 @@ This project is primarily a module-based system. You can interact with the model
 ```bash
 python
 >>> from lib.models.author import Author
->>> author = Author("John Doe")
+>>> author = Author("Alex Kiiru")
 >>> author.save()
 ```
 
