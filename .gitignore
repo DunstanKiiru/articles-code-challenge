@@ -1,1 +1,30 @@
-.venv
+.venv# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Virtual environments
+.venv/
+env/
+venv/
+ENV/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# SQLite database files
+*.sqlite3
+*.db
+
+# Test cache
+.pytest_cache/
+.coverage
+
+# VS Code settings
+.vscode/
+
+# macOS
+.DS_Store
