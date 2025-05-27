@@ -5,6 +5,7 @@
 This project is a command-line and module-based Python application that manages a system of **Authors**, **Magazines**, and **Articles**. It uses SQLite for persistent data storage and is structured using Object-Oriented Programming principles.
 
 The application supports:
+
 - Creating and managing authors, magazines, and articles
 - Establishing relationships between models (e.g., authors write articles, magazines publish them)
 - Running tests with `pytest` to validate functionality
@@ -76,7 +77,7 @@ This project is primarily a module-based system. You can interact with the model
 ```bash
 python
 >>> from lib.models.author import Author
->>> author = Author("Alex Kiiru")
+>>> author = Author("Alex Kiiru ")
 >>> author.save()
 ```
 
