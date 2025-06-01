@@ -55,6 +55,65 @@ class Magazine:
         finally:
             conn.close()
 
+    def contributors(self):
+        """Alias for contributing_authors"""
+        return self.contributing_authors()
+
+    def article_titles(self):
+        """Returns titles of all articles in this magazine"""
+        conn = get_connection()
+        cursor = conn.cursor()
+        cursor.execute(
+            "SELECT title FROM articles WHERE magazine_id = ?",
+            (self.id,)
+        )
+        titles = [row['title'] for row in cursor.fetchall()]
+        conn.close()
+        return titles
+
+    @classmethod
+    def find_by_category(cls, category):
+        """Finds magazines by category"""
+        conn = get_connection()
+        cursor = conn.cursor()
+        cursor.execute(
+            "SELECT * FROM magazines WHERE category = ?",
+            (category,)
+        )
+        magazines = [cls(**row) for row in cursor.fetchall()]
+        conn.close()
+        return magazines
+
+    @classmethod
+    def with_multiple_authors(cls):
+        """Returns magazines with articles having multiple authors"""
+        conn = get_connection()
+        cursor = conn.cursor()
+        cursor.execute(
+            """SELECT magazines.* FROM magazines
+            JOIN articles ON magazines.id = articles.magazine_id
+            GROUP BY articles.id
+            HAVING COUNT(DISTINCT articles.author_id) > 1"""
+        )
+        magazines = [cls(**row) for row in cursor.fetchall()]
+        conn.close()
+        return magazines
+
+    @classmethod
+    def article_counts(cls):
+        """Returns a list of magazines with their article counts"""
+        conn = get_connection()
+        cursor = conn.cursor()
+        cursor.execute(
+            """SELECT magazines.*, COUNT(articles.id) as article_count
+            FROM magazines
+            LEFT JOIN articles ON magazines.id = articles.magazine_id
+            GROUP BY magazines.id"""
+        )
+        results = cursor.fetchall()
+        conn.close()
+        return [(cls(**row), row['article_count']) for row in results]
+
     @classmethod
     def find_by_id(cls, id):
         """Finds magazine by ID"""

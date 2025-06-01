@@ -51,6 +51,30 @@ class Author:
         conn.close()
         return magazines
     
+    def add_article(self, title, magazine):
+        """Creates and saves a new article for this author"""
+        from lib.models.article import Article
+        article = Article(title=title, magazine_id=magazine.id, author_id=self.id)
+        article.save()
+        return article
+    
+    @classmethod
+    def top_author(cls):
+        """Returns the author with the most articles"""
+        conn = get_connection()
+        cursor = conn.cursor()
+        cursor.execute(
+            """SELECT authors.*, COUNT(articles.id) as article_count
+            FROM authors
+            JOIN articles ON authors.id = articles.author_id
+            GROUP BY authors.id
+            ORDER BY article_count DESC
+            LIMIT 1"""
+        )
+        row = cursor.fetchone()
+        conn.close()
+        return cls(**row) if row else None
+    
     @classmethod
     def find_by_id(cls, id):
         """Finds author by ID"""
